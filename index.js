@@ -32,6 +32,9 @@ db.connect((err) => {
 });
 
 app.post('/menus', menusController.createMenu);
+app.get('/', (req, res) => {
+    res.send(process.env.DB_HOST);
+})
 
 // Route to create a new user
 
