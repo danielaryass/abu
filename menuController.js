@@ -47,7 +47,7 @@ const createMenu = async (req, res) => {
 // Get all Menus
 const getAllMenus = async (req, res) => {
   try {
-    const [menus] = await pool.query("SELECT * FROM Menu");
+    const [menus] = await pool.query("SELECT * FROM Menu INNER JOIN MakananPelengkap ON Menu.id = MakananPelengkap.menu_id ORDER BY id DESC");
     return res.json(menus);
   } catch (error) {
     console.error(error);
