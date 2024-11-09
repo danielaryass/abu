@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const menusController = require('./menuController');
 // Create a new express application
 const app = express();
-
+gi
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
@@ -32,6 +32,7 @@ db.connect((err) => {
 });
 
 app.post('/menus', menusController.createMenu);
+app.get('/menus', menusController.getAllMenus);
 app.get('/', (req, res) => {
     res.send(process.env.DB_HOST);
 })
