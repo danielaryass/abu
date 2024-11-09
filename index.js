@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const menusController = require('./menuController');
 // Create a new express application
 const app = express();
-gi
+
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 

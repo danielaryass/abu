@@ -1,5 +1,4 @@
-
-const mysql = require('mysql2/promise');
+const mysql = require("mysql2/promise");
 
 // Create a connection pool
 const pool = mysql.createPool({
@@ -10,15 +9,14 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT,
 });
 
-
 // Create a new Menu
 const createMenu = async (req, res) => {
-  console.log('Request Body:', req.body); // Log the request body
+  console.log("Request Body:", req.body); // Log the request body
   const { nama, deskripsi, kategori, makananPelengkap } = req.body;
 
   try {
     const [rows] = await pool.query(
-      'INSERT INTO Menu (nama, deskripsi, kategori) VALUES (?, ?, ?)',
+      "INSERT INTO Menu (nama, deskripsi, kategori) VALUES (?, ?, ?)",
       [nama, deskripsi, kategori]
     );
 
@@ -26,9 +24,9 @@ const createMenu = async (req, res) => {
 
     // Insert the related MakananPelengkap
     if (makananPelengkap) {
-      const makananPromises = makananPelengkap.map(item =>
+      const makananPromises = makananPelengkap.map((item) =>
         pool.query(
-          'INSERT INTO MakananPelengkap (nama, deskripsi, menu_id) VALUES (?, ?, ?)',
+          "INSERT INTO MakananPelengkap (nama, deskripsi, menu_id) VALUES (?, ?, ?)",
           [item.nama, item.deskripsi, menuId]
         )
       );
@@ -36,10 +34,9 @@ const createMenu = async (req, res) => {
     }
 
     // Retrieve the created menu with associated food items
-    const [menu] = await pool.query(
-      'SELECT * FROM Menu WHERE id = ?',
-      [menuId]
-    );
+    const [menu] = await pool.query("SELECT * FROM Menu WHERE id = ?", [
+      menuId,
+    ]);
     return res.status(201).json(menu[0]);
   } catch (error) {
     console.error(error);
@@ -50,11 +47,11 @@ const createMenu = async (req, res) => {
 // Get all Menus
 const getAllMenus = async (req, res) => {
   try {
-    const [menus] = await pool.query('SELECT * FROM Menu');
+    const [menus] = await pool.query("SELECT * FROM Menu");
     return res.json(menus);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Error retrieving menus' });
+    return res.status(500).json({ error: "Error retrieving menus" });
   }
 };
 
